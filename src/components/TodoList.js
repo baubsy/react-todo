@@ -4,22 +4,43 @@ import axios from "axios";
 const testList = "http://127.0.0.1:3123/api/todoList/375080984463278161";
 const TodoList = () => {
     const [list, setList] = useState({});
+    //get and save listID for updating
 
-    useEffect((()=>{
+    useEffect(() => {
         getList();
         //console.log(list);
-    }),[])
+    }, []);
 
     const getList = async () => {
-        axios.get(testList, {headers: {'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': '*'}})
-        .then(res => console.log(res))
-        .catch(err=> console.log(err));
-        
+        axios
+            .get(testList, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "*",
+                },
+            })
+            .then((res) => {
+                setList(res.data);
+                console.log(list);
+            })
+            .catch((err) => console.log(err));
+
         //setList(response.data);
+    };
+
+    if(list.title === undefined){
+        return <p>loading</p>
     }
     return (
-        <p>Todolist</p>
-    )
-}
+        <div>
+            <h1>{list.title}</h1>
+            {list.list.map((x) => {
+                return (
+                    <p>{x.item}</p>
+                )
+            })}
+        </div>
+    );
+};
 
 export default TodoList;
