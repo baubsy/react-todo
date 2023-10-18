@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import {List, ListItem, ListItemButton, ListItemIcon, ListItemText, Checkbox} from '@mui/material'
 import axios from "axios";
 
 const testList = "http://127.0.0.1:3123/api/todoList/375080984463278161";
@@ -28,19 +29,29 @@ const TodoList = (props) => {
         //setList(response.data);
     };
 
-    if(list.title === undefined){
-        return <p>loading</p>
+    if (list.title === undefined) {
+        return <p>loading</p>;
     }
+
     return (
-        <div>
-            <h1>{list.title}</h1>
+        <List>
             {list.list.map((x) => {
-                return (
-                    <p>{x.item}</p>
+
+                return(
+                    <ListItem
+                        key={x.item}
+                    >
+                        <ListItemButton role={undefined} onClick={()=> console.log('click')}>
+                            <Checkbox
+                                checked={false}
+                            />
+                            <ListItemText id={x.item} primary={x.item}/>
+                        </ListItemButton>
+                    </ListItem>
                 )
             })}
-        </div>
-    );
+        </List>
+    )
 };
 
 export default TodoList;
