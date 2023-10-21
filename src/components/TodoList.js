@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
-import {List, ListItem, ListItemButton, ListItemIcon, ListItemText, Checkbox} from '@mui/material'
+import {
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Checkbox,
+    TextField,
+} from "@mui/material";
 import axios from "axios";
 
-const testList = "http://127.0.0.1:3123/api/todoList/375080984463278161";
 const TodoList = (props) => {
     const [list, setList] = useState({});
     //get and save listID for updating
@@ -22,11 +29,30 @@ const TodoList = (props) => {
             })
             .then((res) => {
                 setList(res.data);
-                console.log(list);
             })
             .catch((err) => console.log(err));
+    };
 
-        //setList(response.data);
+    const onCheck = (id) => {
+        let newList = JSON.parse(JSON.stringify(list));
+
+        for (let i = 0; i < newList.list.length; i++) {
+            if (newList.list[i].id == id) {
+                newList.list[i].complete = !newList.list[i].complete;
+            }
+        }
+
+        setList(newList);
+    };
+
+    const textChange = (event, id) => {
+        let newList = JSON.parse(JSON.stringify(list));
+        for (let i = 0; i < newList.list.length; i++) {
+            if (newList.list[i].id == id) {
+                newList.list[i].item = event.target.value;
+            }
+        }
+        setList(newList);
     };
 
     if (list.title === undefined) {
@@ -36,22 +62,24 @@ const TodoList = (props) => {
     return (
         <List>
             {list.list.map((x) => {
-
-                return(
-                    <ListItem
-                        key={x.item}
-                    >
-                        <ListItemButton role={undefined} onClick={()=> console.log('click')}>
-                            <Checkbox
-                                checked={false}
-                            />
-                            <ListItemText id={x.item} primary={x.item}/>
+                return (
+                    <ListItem key={x.id}>
+                        <ListItemButton
+                            role={undefined}
+                            onClick={() => onCheck(x.id)}
+                        >
+                            <Checkbox checked={x.complete} />
                         </ListItemButton>
+                        <TextField
+                            variant="standard"
+                            value={x.item}
+                            onChange={(event) => textChange(event, x.id)}
+                        />
                     </ListItem>
-                )
+                );
             })}
         </List>
-    )
+    );
 };
 
 export default TodoList;
