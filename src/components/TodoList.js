@@ -49,7 +49,7 @@ const TodoList = (props) => {
 
     const addOnClick = () => {
         let newList = JSON.parse(JSON.stringify(list));
-        console.log(newList);
+        //console.log(newList);
         newList.list.push({item: '', complete: false, id: newList.list[newList.list.length -1].id + 1})
         setList(newList);
     }
@@ -88,8 +88,8 @@ const TodoList = (props) => {
                     </ListItem>
                 );
             })}
-            <IconButton>
-                <AddIcon onClick={()=> addOnClick()}/>
+            <IconButton  onClick={()=> addOnClick()}>
+                <AddIcon/>
             </IconButton>
         </List>
     );
