@@ -63,18 +63,19 @@ const TodoList = (props) => {
         <List>
             {list.list.map((x) => {
                 return (
-                    <ListItem key={x.id}>
+                    <ListItem key={x.id} disablePadding>
                         <ListItemButton
                             role={undefined}
-                            onClick={() => onCheck(x.id)}
+                            
                         >
-                            <Checkbox checked={x.complete} />
+                            <Checkbox checked={x.complete} edge="start" onClick={() => onCheck(x.id)}/>
+                            <TextField
+                                variant="standard"
+                                value={x.item}
+                                onChange={(event) => textChange(event, x.id)}
+                                onClick={(event) => event.stopPropagation()}
+                            />
                         </ListItemButton>
-                        <TextField
-                            variant="standard"
-                            value={x.item}
-                            onChange={(event) => textChange(event, x.id)}
-                        />
                     </ListItem>
                 );
             })}
