@@ -7,7 +7,9 @@ import {
     ListItemText,
     Checkbox,
     TextField,
+    IconButton,
 } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add'
 import axios from "axios";
 
 const TodoList = (props) => {
@@ -45,6 +47,13 @@ const TodoList = (props) => {
         setList(newList);
     };
 
+    const addOnClick = () => {
+        let newList = JSON.parse(JSON.stringify(list));
+        console.log(newList);
+        newList.list.push({item: '', complete: false, id: newList.list[newList.list.length -1].id + 1})
+        setList(newList);
+    }
+
     const textChange = (event, id) => {
         let newList = JSON.parse(JSON.stringify(list));
         for (let i = 0; i < newList.list.length; i++) {
@@ -64,21 +73,24 @@ const TodoList = (props) => {
             {list.list.map((x) => {
                 return (
                     <ListItem key={x.id} disablePadding>
-                        <ListItemButton
-                            role={undefined}
-                            
-                        >
-                            <Checkbox checked={x.complete} edge="start" onClick={() => onCheck(x.id)}/>
+                        <ListItemButton role={undefined}>
+                            <Checkbox
+                                checked={x.complete}
+                                edge="start"
+                                onClick={() => onCheck(x.id)}
+                            />
                             <TextField
                                 variant="standard"
                                 value={x.item}
                                 onChange={(event) => textChange(event, x.id)}
-                                onClick={(event) => event.stopPropagation()}
                             />
                         </ListItemButton>
                     </ListItem>
                 );
             })}
+            <IconButton>
+                <AddIcon onClick={()=> addOnClick()}/>
+            </IconButton>
         </List>
     );
 };
