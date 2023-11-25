@@ -9,7 +9,8 @@ import {
     TextField,
     IconButton,
 } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add'
+import AddIcon from "@mui/icons-material/Add";
+import CancelIcon from "@mui/icons-material/Cancel";
 import axios from "axios";
 
 const TodoList = (props) => {
@@ -50,7 +51,18 @@ const TodoList = (props) => {
     const addOnClick = () => {
         let newList = JSON.parse(JSON.stringify(list));
         //console.log(newList);
-        newList.list.push({item: '', complete: false, id: newList.list[newList.list.length -1].id + 1})
+        newList.list.push({
+            item: "",
+            complete: false,
+            id: newList.list[newList.list.length - 1].id + 1,
+        });
+        setList(newList);
+    };
+
+    const cancelOnClick = () => {
+        let newList = JSON.parse(JSON.stringify(list));
+        //console.log(newList);
+        
         setList(newList);
     }
 
@@ -71,6 +83,8 @@ const TodoList = (props) => {
     return (
         <List>
             {list.list.map((x) => {
+                //console.log(x);
+
                 return (
                     <ListItem key={x.id} disablePadding>
                         <ListItemButton role={undefined}>
@@ -85,11 +99,15 @@ const TodoList = (props) => {
                                 onChange={(event) => textChange(event, x.id)}
                             />
                         </ListItemButton>
+                        <IconButton onClick={() => cancelOnClick()}>
+                            <CancelIcon />
+                        </IconButton>
                     </ListItem>
                 );
             })}
-            <IconButton  onClick={()=> addOnClick()}>
-                <AddIcon/>
+
+            <IconButton onClick={() => addOnClick()}>
+                <AddIcon />
             </IconButton>
         </List>
     );
