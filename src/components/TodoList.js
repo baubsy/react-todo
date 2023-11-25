@@ -8,6 +8,7 @@ import {
     Checkbox,
     TextField,
     IconButton,
+    Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -85,6 +86,11 @@ const TodoList = (props) => {
     }
 
     return (
+        <div>
+
+        <Typography variant="h5">
+            {list.title}
+        </Typography>
         <List>
             {list.list.map((x) => {
                 //console.log(x);
@@ -114,6 +120,7 @@ const TodoList = (props) => {
                 <AddIcon />
             </IconButton>
         </List>
+        </div>
     );
 };
 
