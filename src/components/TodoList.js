@@ -17,6 +17,7 @@ import axios from "axios";
 const TodoList = (props) => {
     const [list, setList] = useState({});
     //get and save listID for updating
+    //or just keep it in todolist props?
 
     useEffect(() => {
         getList();
@@ -24,12 +25,18 @@ const TodoList = (props) => {
     }, []);
 
     useEffect(() => {
-      const sendList = setTimeout(() => {
-        console.log("debounced")
-      }, 5000)
+        const sendList = setTimeout(() => {
+            axios.put(props.listURL, JSON.stringify(list), {
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Methods": "*",
+                }
+            })
+            console.log("debounced");
+        }, 5000);
 
-      return () => clearTimeout(sendList);
-    },[list])
+        return () => clearTimeout(sendList);
+    }, [list]);
 
     const getList = async () => {
         axios
@@ -71,13 +78,13 @@ const TodoList = (props) => {
     const cancelOnClick = (id) => {
         let newList = JSON.parse(JSON.stringify(list));
         //console.log(newList);
-        for(let i = 0; i < newList.list.length; i++){
-            if(newList.list[i].id === id){
-                newList.list.splice(i, 1)
+        for (let i = 0; i < newList.list.length; i++) {
+            if (newList.list[i].id === id) {
+                newList.list.splice(i, 1);
             }
         }
         setList(newList);
-    }
+    };
 
     const textChange = (event, id) => {
         let newList = JSON.parse(JSON.stringify(list));
@@ -95,39 +102,38 @@ const TodoList = (props) => {
 
     return (
         <div>
+            <Typography variant="h5">{list.title}</Typography>
+            <List>
+                {list.list.map((x) => {
+                    //console.log(x);
 
-        <Typography variant="h5">
-            {list.title}
-        </Typography>
-        <List>
-            {list.list.map((x) => {
-                //console.log(x);
+                    return (
+                        <ListItem key={x.id} disablePadding>
+                            <ListItemButton role={undefined}>
+                                <Checkbox
+                                    checked={x.complete}
+                                    edge="start"
+                                    onClick={() => onCheck(x.id)}
+                                />
+                                <TextField
+                                    variant="standard"
+                                    value={x.item}
+                                    onChange={(event) =>
+                                        textChange(event, x.id)
+                                    }
+                                />
+                            </ListItemButton>
+                            <IconButton onClick={() => cancelOnClick(x.id)}>
+                                <CancelIcon />
+                            </IconButton>
+                        </ListItem>
+                    );
+                })}
 
-                return (
-                    <ListItem key={x.id} disablePadding>
-                        <ListItemButton role={undefined}>
-                            <Checkbox
-                                checked={x.complete}
-                                edge="start"
-                                onClick={() => onCheck(x.id)}
-                            />
-                            <TextField
-                                variant="standard"
-                                value={x.item}
-                                onChange={(event) => textChange(event, x.id)}
-                            />
-                        </ListItemButton>
-                        <IconButton onClick={() => cancelOnClick(x.id)}>
-                            <CancelIcon />
-                        </IconButton>
-                    </ListItem>
-                );
-            })}
-
-            <IconButton onClick={() => addOnClick()}>
-                <AddIcon />
-            </IconButton>
-        </List>
+                <IconButton onClick={() => addOnClick()}>
+                    <AddIcon />
+                </IconButton>
+            </List>
         </div>
     );
 };
