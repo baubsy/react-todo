@@ -59,10 +59,14 @@ const TodoList = (props) => {
         setList(newList);
     };
 
-    const cancelOnClick = () => {
+    const cancelOnClick = (id) => {
         let newList = JSON.parse(JSON.stringify(list));
         //console.log(newList);
-        
+        for(let i = 0; i < newList.list.length; i++){
+            if(newList.list[i].id === id){
+                newList.list.splice(i, 1)
+            }
+        }
         setList(newList);
     }
 
@@ -99,7 +103,7 @@ const TodoList = (props) => {
                                 onChange={(event) => textChange(event, x.id)}
                             />
                         </ListItemButton>
-                        <IconButton onClick={() => cancelOnClick()}>
+                        <IconButton onClick={() => cancelOnClick(x.id)}>
                             <CancelIcon />
                         </IconButton>
                     </ListItem>
