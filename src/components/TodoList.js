@@ -23,6 +23,14 @@ const TodoList = (props) => {
         //console.log(list);
     }, []);
 
+    useEffect(() => {
+      const sendList = setTimeout(() => {
+        console.log("debounced")
+      }, 5000)
+
+      return () => clearTimeout(sendList);
+    },[list])
+
     const getList = async () => {
         axios
             .get(props.listURL, {
