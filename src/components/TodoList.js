@@ -107,27 +107,57 @@ const TodoList = (props) => {
                 {list.list.map((x) => {
                     //console.log(x);
 
-                    return (
-                        <ListItem key={x.id} disablePadding>
-                            <ListItemButton role={undefined}>
-                                <Checkbox
-                                    checked={x.complete}
-                                    edge="start"
-                                    onClick={() => onCheck(x.id)}
-                                />
-                                <TextField
-                                    variant="standard"
-                                    value={x.item}
-                                    onChange={(event) =>
-                                        textChange(event, x.id)
-                                    }
-                                />
-                            </ListItemButton>
-                            <IconButton onClick={() => cancelOnClick(x.id)}>
-                                <CancelIcon />
-                            </IconButton>
-                        </ListItem>
-                    );
+                    if(!x.complete){
+                        return (
+                            <ListItem key={x.id} disablePadding>
+                                <ListItemButton role={undefined}>
+                                    <Checkbox
+                                        checked={x.complete}
+                                        edge="start"
+                                        onClick={() => onCheck(x.id)}
+                                    />
+                                    <TextField
+                                        variant="standard"
+                                        value={x.item}
+                                        onChange={(event) =>
+                                            textChange(event, x.id)
+                                        }
+                                    />
+                                </ListItemButton>
+                                <IconButton onClick={() => cancelOnClick(x.id)}>
+                                    <CancelIcon />
+                                </IconButton>
+                            </ListItem>
+                        );
+                    }
+                    
+                })}
+                {list.list.map((x) => {
+                    //console.log(x);
+                    if(x.complete){
+                        return (
+                            <ListItem key={x.id} disablePadding>
+                                <ListItemButton role={undefined}>
+                                    <Checkbox
+                                        checked={x.complete}
+                                        edge="start"
+                                        onClick={() => onCheck(x.id)}
+                                    />
+                                    <TextField
+                                        variant="standard"
+                                        value={x.item}
+                                        onChange={(event) =>
+                                            textChange(event, x.id)
+                                        }
+                                    />
+                                </ListItemButton>
+                                <IconButton onClick={() => cancelOnClick(x.id)}>
+                                    <CancelIcon />
+                                </IconButton>
+                            </ListItem>
+                        );
+                    }
+                    
                 })}
 
                 <IconButton onClick={() => addOnClick()}>
