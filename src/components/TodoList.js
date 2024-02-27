@@ -30,8 +30,8 @@ const TodoList = (props) => {
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Methods": "*",
-                }
-            })
+                },
+            });
             console.log("debounced");
         }, 5000);
 
@@ -107,7 +107,7 @@ const TodoList = (props) => {
                 {list.list.map((x) => {
                     //console.log(x);
 
-                    if(!x.complete){
+                    if (!x.complete) {
                         return (
                             <ListItem key={x.id} disablePadding>
                                 <ListItemButton role={undefined}>
@@ -130,11 +130,10 @@ const TodoList = (props) => {
                             </ListItem>
                         );
                     }
-                    
                 })}
                 {list.list.map((x) => {
                     //console.log(x);
-                    if(x.complete){
+                    if (x.complete) {
                         return (
                             <ListItem key={x.id} disablePadding>
                                 <ListItemButton role={undefined}>
@@ -144,6 +143,9 @@ const TodoList = (props) => {
                                         onClick={() => onCheck(x.id)}
                                     />
                                     <TextField
+                                        style={{
+                                            textDecorationLine: "line-through",
+                                        }}
                                         variant="standard"
                                         value={x.item}
                                         onChange={(event) =>
@@ -157,7 +159,6 @@ const TodoList = (props) => {
                             </ListItem>
                         );
                     }
-                    
                 })}
 
                 <IconButton onClick={() => addOnClick()}>
