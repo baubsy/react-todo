@@ -101,7 +101,7 @@ const TodoList = (props) => {
     }
 
     return (
-        <div>
+        <div className="container">
             <Typography variant="h5">{list.title}</Typography>
             <List>
                 {list.list.map((x) => {
