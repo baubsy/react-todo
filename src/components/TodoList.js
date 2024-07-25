@@ -21,6 +21,7 @@ const TodoList = (props) => {
 
     useEffect(() => {
         getList();
+        //TODO setup handler for when no list is returned
         //console.log(list);
     }, []);
 
