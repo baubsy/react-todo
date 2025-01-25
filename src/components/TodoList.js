@@ -48,7 +48,10 @@ const TodoList = (props) => {
                 },
             })
             .then((res) => {
-                setList(res.data);
+                console.log(res.data);
+                console.log(JSON.parse(res.data[0].list))
+                //TODO handle multiple lists
+                setList(res.data[0]);
             })
             .catch((err) => console.log(err));
     };
@@ -105,7 +108,7 @@ const TodoList = (props) => {
         <div className="container">
             <Typography variant="h5">{list.title}</Typography>
             <List>
-                {list.list.map((x) => {
+                {JSON.parse(list.list).map((x) => {
                     //console.log(x);
 
                     if (!x.complete) {
@@ -132,7 +135,7 @@ const TodoList = (props) => {
                         );
                     }
                 })}
-                {list.list.map((x) => {
+                {JSON.parse(list.list).map((x) => {
                     //console.log(x);
                     if (x.complete) {
                         return (
