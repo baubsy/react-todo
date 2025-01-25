@@ -34,6 +34,7 @@ const TodoList = (props) => {
                 },
             });
             console.log("debounced");
+            console.log(list)
         }, 5000);
 
         return () => clearTimeout(sendList);
@@ -51,7 +52,18 @@ const TodoList = (props) => {
                 console.log(res.data);
                 console.log(JSON.parse(res.data[0].list))
                 //TODO handle multiple lists
-                setList(res.data[0]);
+                let parsedList = JSON.parse(res.data[0].list);
+                console.log("parsed list");
+                console.log(parsedList)
+                let getList = {
+                    id: res.data[0].id,
+                    title: res.data[0].title,
+                    list: parsedList,
+                    user: res.data[0].user,
+                    createdAt: res.data[0].createdAt,
+                    updatedAt: res.data[0].updatedAt
+                }
+                setList(getList);
             })
             .catch((err) => console.log(err));
     };
@@ -108,7 +120,7 @@ const TodoList = (props) => {
         <div className="container">
             <Typography variant="h5">{list.title}</Typography>
             <List>
-                {JSON.parse(list.list).map((x) => {
+                {list.list.map((x) => {
                     //console.log(x);
 
                     if (!x.complete) {
@@ -135,7 +147,7 @@ const TodoList = (props) => {
                         );
                     }
                 })}
-                {JSON.parse(list.list).map((x) => {
+                {list.list.map((x) => {
                     //console.log(x);
                     if (x.complete) {
                         return (
